@@ -1,0 +1,63 @@
+.inc {
+  color: green;
+}
+
+.desc {
+  color: red;
+}
+
+.coin-list {
+  margin: 0 50px;
+}
+
+.coin-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.coin-name {
+  width: 150px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: left;
+}
+
+.coin-image {
+  height: 50px;
+  width: 50px;
+}
+
+.coin-current-price {
+  width: 100px;
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.coin-circulating-supply {
+  width: 150px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.coin-24hr-change {
+  width: 120px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.coin-24hr-percent-change {
+  width: 120px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.coin-market-cap {
+  width: 150px;
+  text-align: right;
+  padding-right: 20px;
+}
