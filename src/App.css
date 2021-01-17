@@ -7,3 +7,12 @@
   width: 200px;
   border-radius: 5px;
 }
+
+.category {
+  display: flex;
+  justify-content: center;
+}
+.category-item {
+  width: 150px;
+  font-weight: bold;
+}

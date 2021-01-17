@@ -22,6 +22,8 @@ function App() {
     }
   }, [])
 
+  console.log(coins)
+
   const handleChange = (e) => {
     setSearchCoin(e.target.value)
   }
@@ -29,6 +31,16 @@ function App() {
   const filteredCoins = coins.filter((coin) =>
     coin.name.toLowerCase().includes(searchCoin.toLowerCase())
   )
+
+  const category = [
+    'Rank',
+    'Name',
+    'Current Price',
+    'Circulating Supply',
+    '2hr',
+    '24hr-percent',
+    'Market Cap',
+  ]
 
   return (
     <div className='App'>
@@ -42,6 +54,11 @@ function App() {
             onChange={handleChange}
           ></input>
         </form>
+      </div>
+      <div className='category'>
+        {category.map((title) => (
+          <p className='category-item'>{title}</p>
+        ))}
       </div>
       <div className='coin-list'>
         {filteredCoins.map((coin, index) => (
