@@ -9,7 +9,12 @@ const Coin = ({ coin, rank }) => {
         {coin.name} {coin.symbol.toUpperCase()}
       </div>
       <img src={coin.image} alt='crytocurrency' className='coin-image' />
-      <div className='coin-current-price'>${coin.current_price.toFixed(2)}</div>
+      <div className='coin-current-price'>
+        $
+        {coin.current_price.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+        })}
+      </div>
       <div className='coin-circulating-supply'>
         {coin.circulating_supply.toLocaleString()}
       </div>
