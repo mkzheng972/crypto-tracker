@@ -3,6 +3,7 @@ import './Coin.css'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Coin from './Coin'
+import Sunbrust from './Sunbrust'
 
 function App() {
   const [coins, setCoins] = useState([])
@@ -44,6 +45,7 @@ function App() {
 
   return (
     <div className='App'>
+      <Sunbrust />
       <h1>Cryptocurreny Tracker</h1>
       <div className='search-coin'>
         <form>
