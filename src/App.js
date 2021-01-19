@@ -23,8 +23,6 @@ function App() {
     }
   }, [])
 
-  console.log(coins)
-
   const handleChange = (e) => {
     setSearchCoin(e.target.value)
   }

@@ -1,12 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react'
 import * as d3 from 'd3'
 import flare from './MOCK-DATA'
+import cryptoData from './DATA'
 
 const Sunbrust = () => {
-  const [data, setData] = useState(flare)
+  const [data, setData] = useState(cryptoData)
   const svgRef = useRef()
 
+  const width = 700
+  // const height = 700
+  // const radius = Math.min(width, height) / 2
+  console.log(data)
+
   /*
+  reference: https://www.youtube.com/watch?v=Y-ThTzB-Zjk
+
   svg has 3 selections: enter, update, exit
   .join() api auto handles eneter, update, exit.remove() if not specified as callback params
   useEffect(() => {
@@ -22,20 +30,16 @@ const Sunbrust = () => {
   }, [])
   */
 
-  console.log(data)
-
-  const width = 700
-
-  useEffect(() => {
+  const drawChart = () => {
     const partition = (data) => {
       const root = d3
         .hierarchy(data)
-        .sum((d) => d.value)
+        .sum((d) => d.market_cap)
         .sort((a, b) => b.value - a.value)
       return d3.partition().size([2 * Math.PI, root.height + 1])(root)
     }
     const color = d3.scaleOrdinal(
-      d3.quantize(d3.interpolateRainbow, data.children.length + 1)
+      d3.quantize(d3.interpolateRainbow, data.children.length)
     )
 
     const format = d3.format(',d')
@@ -51,7 +55,7 @@ const Sunbrust = () => {
       .innerRadius((d) => d.y0 * radius)
       .outerRadius((d) => Math.max(d.y0 * radius, d.y1 * radius - 1))
 
-    // above is required first
+    // above are functions required first
 
     const root = partition(data)
     root.each((d) => (d.current = d))
@@ -172,10 +176,59 @@ const Sunbrust = () => {
       const y = ((d.y0 + d.y1) / 2) * radius
       return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`
     }
+  }
+
+  useEffect(() => {
+    drawChart()
+  }, [])
+
+  /*
+
+  useEffect(() => {
+    const g = d3
+      .select(svgRef.current)
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
+
+    const partition = d3.partition().size([2 * Math.PI, radius])
+
+    const root = d3.hierarchy(cryptoData).sum((d) => d.market_cap)
+
+    console.log(root)
+
+    partition(root)
+
+    const arc = d3
+      .arc()
+      .startAngle((d) => d.x0)
+      .endAngle((d) => d.x1)
+      .innerRadius((d) => d.y0)
+      .outerRadius((d) => d.y1)
+
+    console.log(root)
+    console.log(root.descendants().slice(1))
+    g.selectAll('path') // <-- 1
+      .data(partition.nodes(root).filter((d) => d.depth === 0)) // <-- 2
+      .enter() // <-- 3
+      .append('path') // <-- 4
+      .attr('display', function (d) {
+        return d.depth ? null : 'none'
+      }) // <-- 5
+      .attr('d', arc) // <-- 6
+      .style('stroke', '#fff') // <-- 7
+      .style('fill', function (d) {
+        return color((d.children ? d : d.parent).data.name)
+      })
+      .append('title')
+      .text((d) => d.name)
   }, [data])
 
+  */
+
   return (
-    <div id='chart'>
+    <div id='chart' style={{ height: '900px', width: '900px' }}>
       <svg ref={svgRef}></svg>
     </div>
   )
