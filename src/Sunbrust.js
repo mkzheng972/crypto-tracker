@@ -1,16 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react'
 import * as d3 from 'd3'
 import flare from './MOCK-DATA'
-import cryptoData from './DATA'
+import cryptoData from './CRYPTO-DATA'
+import { stock as stockData } from './STOCK-DATA'
 
 const Sunbrust = () => {
-  const [data, setData] = useState(cryptoData)
+  const [data, setData] = useState(stockData)
   const svgRef = useRef()
 
-  const width = 700
+  const width = 1000
   // const height = 700
   // const radius = Math.min(width, height) / 2
-  console.log(data)
 
   /*
   reference: https://www.youtube.com/watch?v=Y-ThTzB-Zjk
@@ -30,14 +30,16 @@ const Sunbrust = () => {
   }, [])
   */
 
+  console.log(data)
   const drawChart = () => {
     const partition = (data) => {
       const root = d3
         .hierarchy(data)
-        .sum((d) => d.market_cap)
+        .sum((d) => d.price_change_24hr)
         .sort((a, b) => b.value - a.value)
       return d3.partition().size([2 * Math.PI, root.height + 1])(root)
     }
+
     const color = d3.scaleOrdinal(
       d3.quantize(d3.interpolateRainbow, data.children.length)
     )

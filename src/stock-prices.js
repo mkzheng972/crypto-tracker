@@ -1,4 +1,4 @@
-const price = [
+const prices = [
   {
     c: 169.12,
     h: 169.55,
@@ -6060,3 +6060,56 @@ const price = [
     number: 505,
   },
 ]
+
+/*
+
+- If the price increased, use the formula [(New Price - Old Price)/Old Price] and then multiply that number by 100.
+
+- If the price decreased, use the formula [(Old Price - New Price)/Old Price] and multiply that number by 100.
+
+*/
+
+let map = {}
+for (let company of prices) {
+  let { sector, c, pc } = company
+  // check for percent change
+  let percentChange = 0
+  if (c > pc) {
+    percentChange = ((c - pc) / pc) * 100
+  } else if (c < pc) {
+    percentChange = ((pc - c) / c) * 100 * -1
+  }
+  company.percent_change_24hr = +percentChange.toFixed(2)
+
+  let priceChange = c - pc
+  company.price_change_24hr = +priceChange.toFixed(2)
+
+  if (map[sector] === undefined) {
+    map[sector] = []
+  }
+  map[sector].push(company)
+}
+
+const obj = {
+  name: 's&p500',
+}
+
+let childrenArr = []
+for (let sector in map) {
+  let subObj = {
+    name: sector,
+    children: map[sector],
+  }
+  childrenArr.push(subObj)
+}
+
+obj.children = childrenArr
+
+const fs = require('fs')
+
+fs.writeFile('src/STOCK-DATA.json', JSON.stringify(obj), 'utf8', (err) => {
+  if (err) {
+    throw err
+  }
+  console.log('File created')
+})

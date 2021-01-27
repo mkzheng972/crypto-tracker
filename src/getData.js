@@ -1,4 +1,4 @@
-const stock = require('./stock-raw')
+const stock = require('./companies')
 const companies = stock
 const axios = require('axios')
 const fs = require('fs')
@@ -24,11 +24,11 @@ async function getData() {
           data.sector = company.Sector
           data.symbol = company.Symbol
           data.number = 240
-          // data.current = data.c
-          // data.open = data.o
-          // data.high = data.h
-          // data.low = data.l
-          // data.previous_close = data.pc
+          data.current = data.c
+          data.open = data.o
+          data.high = data.h
+          data.low = data.l
+          data.previous_close = data.pc
           arr.push(data)
         } catch (error) {
           console.error(error)
@@ -47,7 +47,7 @@ async function getData() {
     console.error(error)
   }
 
-  fs.writeFile('prices.json', JSON.stringify(arr), 'utf8', (err) => {
+  fs.writeFile('prices1.json', JSON.stringify(arr), 'utf8', (err) => {
     if (err) throw err
     console.log('File created!')
   })
